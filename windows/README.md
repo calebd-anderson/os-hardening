@@ -1,6 +1,21 @@
 # Windows Scripts
 ## `ip_locate.ps1`
 IP address analysis leveraging the [ipinfo.io](https://ipinfo.io/) API to display a report about an ip address.
+## `dpapi_password.ps`
+Save an alias for lesspass:
+```powershell
+# create the profile if it doesn't exist
+New-Item -ItemType File -Path $PROFILE -Force
+# open the profile in notepad
+notepad $PROFILE
+# add the following
+# remove lp is normally an alias for Out-Printer
+Remove-Item Alias:lp -Force -ErrorAction SilentlyContinue
+
+function lp {
+    & (Join-Path $env:USERPROFILE '<path-to>\dpapi_password.ps1') @args
+}
+```
 ## list-dupe-files
 Batch script calculates and generates a report of dissimilar file data in the current working directory.
 ## eject-volume
