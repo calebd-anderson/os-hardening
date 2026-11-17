@@ -14,7 +14,7 @@ Add-Type -AssemblyName System.Security
 
 $configDirectory = Join-Path $env:APPDATA 'lesspass'
 $configPath = Join-Path $configDirectory 'config.json'
-$propertyName = 'masterPasswordDpapi'
+$propertyName = 'EncryptedSecret'
 $config = $null
 $hasStoredPassword = $false
 
@@ -90,6 +90,7 @@ if (-not $hasStoredPassword) {
     }
 
     $config | Add-Member -MemberType NoteProperty -Name $propertyName -Value $encodedPassword -Force
+    $config | Add-Member -MemberType NoteProperty -Name 'LastUpdated' -Value (Get-Date).ToString('yyyy-MM-dd HH:mm:ss') -Force
     $json = ConvertTo-Json -InputObject $config -Depth 100
     $temporaryPath = Join-Path $configDirectory ([IO.Path]::GetRandomFileName())
     $backupPath = "$temporaryPath.bak"
